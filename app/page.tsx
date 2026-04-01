@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Disclaimer } from "@/components/disclaimer";
 import { LanguageSelector } from "@/components/language-selector";
+import { ApiKeySetup } from "@/components/api-key-setup";
 import { UploadZone, type UploadedImage } from "@/components/upload-zone";
 import { ImageViewer } from "@/components/image-viewer";
 import { ImageLightbox } from "@/components/image-lightbox";
@@ -122,8 +123,12 @@ export default function Home() {
     window.open("/report", "_blank");
   }, [analysis, deepDiveAnalysis, selectedImages, deepDiveImages, lang, stream]);
 
+  const checkApiKey = useCallback(() => {
+    fetch("/api/config").then((r) => r.json()).then((s) => setProviderReady(!!s.ready)).catch(() => {});
+  }, []);
+
   useEffect(() => {
-    fetch("/api/providers/status").then((r) => r.json()).then((s) => setProviderReady(!!s.ready)).catch(() => {});
+    checkApiKey();
   }, []);
 
   useEffect(() => {
@@ -331,7 +336,7 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-3">
             <LanguageSelector lang={lang} onChange={setLang} />
-            <div className={cn("w-2 h-2 rounded-full", providerReady ? "bg-[#10B981]" : "bg-[#EF4444]")} title={t(lang, providerReady ? "geminiReady" : "apiKeyMissing")} />
+            <ApiKeySetup ready={providerReady} onSaved={checkApiKey} />
           </div>
         </div>
       </header>
