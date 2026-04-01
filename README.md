@@ -26,6 +26,18 @@ AI-powered MRI scan analysis tool. Upload your MRI images, get structured findin
 4. **Deep Dive** — If pathology detected, AI requests specific slice ranges for detailed examination
 5. **Results** — Summary, per-image findings sorted by severity, PDF export
 
+## Powered by Google Gemini API
+
+MRI Scout uses the [Google Generative AI API](https://ai.google.dev/) (Gemini 3.1 Pro Preview) for image analysis. The API processes your MRI images and returns structured radiological findings.
+
+**The app is completely free to use** — you just need your own Google AI API key:
+
+1. Go to [Google AI Studio](https://aistudio.google.com/apikey)
+2. Create a free API key (Google offers a generous free tier)
+3. Paste it into your `.env.local` file
+
+Your images are sent directly to Google's API for analysis. No data is stored on any server — everything runs locally on your machine.
+
 ## Tech Stack
 
 - [Next.js](https://nextjs.org/) 15+ (App Router, Turbopack)
@@ -39,7 +51,7 @@ AI-powered MRI scan analysis tool. Upload your MRI images, get structured findin
 ### Prerequisites
 
 - Node.js 18+
-- Google AI API key — [Get one here](https://aistudio.google.com/apikey)
+- Google AI API key — [Get one free](https://aistudio.google.com/apikey)
 
 ### Installation
 
@@ -99,4 +111,8 @@ Contributions welcome. Please open an issue first to discuss changes.
 
 ## Author
 
-**Lukas Hanes** — [@lukashanes](https://github.com/lukashanes)
+**Lukas Hanes**
+
+- Web: [lukashanes.com](https://lukashanes.com/)
+- X/Twitter: [@lukhanes](https://x.com/lukhanes)
+- GitHub: [@lukashanes](https://github.com/lukashanes)
