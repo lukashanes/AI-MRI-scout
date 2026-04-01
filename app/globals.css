@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  /* MRI Scout Design System — Clinical Dark */
+  --color-bg-primary: #0A0E1A;
+  --color-bg-secondary: #111827;
+  --color-bg-tertiary: #1E293B;
+  --color-bg-elevated: #1A2332;
+  --color-text-primary: #F1F5F9;
+  --color-text-secondary: #94A3B8;
+  --color-text-tertiary: #64748B;
+  --color-accent: #00D4AA;
+  --color-accent-hover: #00E8BB;
+  --color-accent-muted: #0D9488;
+  --color-accent-bg: #042F2E;
+  --color-status-normal: #10B981;
+  --color-status-normal-bg: #022C22;
+  --color-status-normal-border: #065F46;
+  --color-status-warning: #F59E0B;
+  --color-status-warning-bg: #422006;
+  --color-status-warning-border: #92400E;
+  --color-status-critical: #EF4444;
+  --color-status-critical-bg: #450A0A;
+  --color-status-critical-border: #991B1B;
+  --color-border-subtle: #1E293B;
+  --color-border-default: #334155;
+  --color-border-focus: #00D4AA;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+}
+
+body { background-color: #0A0E1A; color: #F1F5F9; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #111827; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(0, 212, 170, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(0, 212, 170, 0.6); }
+}
+.loading-glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.animate-slide-in { animation: slide-in-right 0.3s ease-out; }
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: fade-in 0.4s ease-out; }
+
+@media print {
+  body { background: white !important; color: black !important; }
+  header, .no-print, button { display: none !important; }
+  * { border-color: #ccc !important; }
+}
