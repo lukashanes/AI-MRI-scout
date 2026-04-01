@@ -46,7 +46,11 @@ export default function ReportPage() {
   useEffect(() => {
     try {
       const raw = sessionStorage.getItem("mri-scout-report");
-      if (raw) setData(JSON.parse(raw));
+      if (raw) {
+        setData(JSON.parse(raw));
+        // Clear sensitive data immediately after reading
+        sessionStorage.removeItem("mri-scout-report");
+      }
     } catch {}
   }, []);
 

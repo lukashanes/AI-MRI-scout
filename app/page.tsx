@@ -123,7 +123,7 @@ export default function Home() {
   }, [analysis, deepDiveAnalysis, selectedImages, deepDiveImages, lang, stream]);
 
   useEffect(() => {
-    fetch("/api/providers/status").then((r) => r.json()).then((s) => setProviderReady(!!s.gemini)).catch(() => {});
+    fetch("/api/providers/status").then((r) => r.json()).then((s) => setProviderReady(!!s.ready)).catch(() => {});
   }, []);
 
   useEffect(() => {

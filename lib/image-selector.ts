@@ -33,16 +33,18 @@ function parseSeriesAndSlice(name: string): {
   series: string;
   slice: number;
 } {
-  const base = name.replace(/\.[^.]+$/, "");
+  // Limit filename length to prevent ReDoS
+  const safeName = name.slice(0, 200);
+  const base = safeName.replace(/\.[^.]+$/, "");
 
   // Common MRI naming: 201__S000_I0023, 301_S001_I0015
-  const match = base.match(/^(.+?)_I(\d+)$/);
+  const match = base.match(/^(.{1,100})_I(\d{1,6})$/);
   if (match) {
     return { series: match[1], slice: parseInt(match[2], 10) };
   }
 
   // Fallback: trailing number
-  const numMatch = base.match(/^(.+?)(\d+)$/);
+  const numMatch = base.match(/^(.{1,100})(\d{1,6})$/);
   if (numMatch) {
     return { series: numMatch[1], slice: parseInt(numMatch[2], 10) };
   }
