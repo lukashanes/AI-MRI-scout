@@ -42,6 +42,8 @@ The app was tested on a real exported knee MRI set:
 
 In that test, the app flagged a serious cruciate ligament injury pattern, including possible complete rupture, plus related bone marrow signal and soft tissue edema. That is exactly the kind of result where the app should tell you to get proper medical review, not pretend to be a doctor.
 
+Three days later, the official result came back. MRI Scout was very close to what the report said. Not perfect, and not something to use instead of a doctor, but close enough to prove the point: waiting completely blind does not make much sense when the scan data already exists.
+
 ## How It Works
 
 1. Upload an MRI folder or selected image files.
@@ -80,6 +82,12 @@ GOOGLE_GENERATIVE_AI_API_KEY=your_google_key_here
 - If your scan is on a CD, copy the data first.
 - If your files are DICOM, export them to JPG, PNG, or WEBP before upload.
 - The app does not replace radiology, orthopedics, or emergency care.
+
+## Status
+
+MRI Scout is free under the MIT license.
+
+I do not plan to maintain it as a real product, and honestly I hope I will not need it again. But if someone else needs a similar tool, they do not have to start from zero. Most likely, upgrading the model and maybe refreshing the UI will be enough to keep it useful for a while.
 
 ## Tech Stack
 
