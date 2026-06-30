@@ -13,7 +13,7 @@ export interface AnalysisResult {
 
 export interface AnalysisProvider {
   name: string;
-  slug: "gemini";
+  slug: "gemini" | "openai";
   model: string;
   analyze(images: Base64Image[], lang?: string): Promise<AnalysisResult>;
   analyzeStream(
