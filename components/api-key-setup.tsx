@@ -73,11 +73,11 @@ export function ApiKeySetup({ ready, onSaved }: ApiKeySetupProps) {
       >
         <div className="flex items-center gap-2">
           <Key className="w-5 h-5 text-[#00D4AA]" />
-          <h2 className="text-base font-bold text-[#F1F5F9]">Google AI API Key</h2>
+          <h2 className="text-base font-bold text-[#F1F5F9]">AI API Key</h2>
         </div>
 
         <p className="text-xs text-[#94A3B8] leading-relaxed">
-          MRI Scout uses the Google Gemini API to analyze images. You need a free API key:
+          MRI Scout can use Google Gemini or OpenAI to analyze images. Paste a provider API key:
         </p>
 
         <a
@@ -87,7 +87,7 @@ export function ApiKeySetup({ ready, onSaved }: ApiKeySetupProps) {
           className="flex items-center gap-1.5 text-xs text-[#00D4AA] hover:text-[#00E8BB] transition-colors"
         >
           <ExternalLink className="w-3 h-3" />
-          Get a free key at Google AI Studio
+          Get a Google AI key
         </a>
 
         <div className="space-y-2">
@@ -126,7 +126,7 @@ export function ApiKeySetup({ ready, onSaved }: ApiKeySetupProps) {
         </div>
 
         <p className="text-[10px] text-[#64748B] italic">
-          Key is stored locally in .env.local — never sent anywhere except Google API.
+          Key is stored locally in .env.local and only sent to the selected AI provider.
         </p>
       </div>
     </div>

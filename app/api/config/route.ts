@@ -26,7 +26,7 @@ function writeEnvFile(env: Record<string, string>) {
 
 // GET: check if key is set (boolean only, never return the key)
 export async function GET() {
-  const hasKey = !!process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+  const hasKey = !!process.env.GOOGLE_GENERATIVE_AI_API_KEY || !!process.env.OPENAI_API_KEY;
   return Response.json({ ready: hasKey });
 }
 
@@ -47,11 +47,12 @@ export async function POST(request: NextRequest) {
 
     // Read existing env, update key, write back
     const env = readEnvFile();
-    env["GOOGLE_GENERATIVE_AI_API_KEY"] = trimmed;
+    const envName = trimmed.startsWith("sk-") ? "OPENAI_API_KEY" : "GOOGLE_GENERATIVE_AI_API_KEY";
+    env[envName] = trimmed;
     writeEnvFile(env);
 
     // Update process.env so it takes effect immediately (no restart needed)
-    process.env.GOOGLE_GENERATIVE_AI_API_KEY = trimmed;
+    process.env[envName] = trimmed;
 
     return Response.json({ success: true, ready: true });
   } catch (error) {

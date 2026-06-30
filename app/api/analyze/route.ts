@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { getProvider } from "@/lib/providers";
 import { Base64Image } from "@/lib/providers/types";
+import type { ProviderSlug } from "@/lib/providers";
 
 export const maxDuration = 300;
 
@@ -12,10 +13,11 @@ const ALLOWED_MEDIA_TYPES = ["image/png", "image/jpeg", "image/webp"];
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { images, lang, customPrompt } = body as {
+    const { images, lang, customPrompt, provider } = body as {
       images: Base64Image[];
       lang?: string;
       customPrompt?: string;
+      provider?: ProviderSlug;
     };
 
     // Validate images
@@ -46,6 +48,13 @@ export async function POST(request: NextRequest) {
 
     // Validate lang
     const safeLang = typeof lang === "string" && lang.length <= 5 ? lang : "en";
+    const requestedProvider: ProviderSlug = provider === "openai" ? "openai" : "gemini";
+    const safeProvider: ProviderSlug =
+      requestedProvider === "gemini" &&
+      !process.env.GOOGLE_GENERATIVE_AI_API_KEY &&
+      !!process.env.OPENAI_API_KEY
+        ? "openai"
+        : requestedProvider;
 
     // Validate customPrompt — only allow internal deep-dive prompts, not arbitrary input
     let safePrompt: string | undefined;
@@ -57,11 +66,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Check API key
-    if (!process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
+    if (safeProvider === "gemini" && !process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
+      return Response.json({ error: "API key is not configured." }, { status: 400 });
+    }
+    if (safeProvider === "openai" && !process.env.OPENAI_API_KEY) {
       return Response.json({ error: "API key is not configured." }, { status: 400 });
     }
 
-    const provider = getProvider("gemini");
+    const analysisProvider = getProvider(safeProvider);
     const encoder = new TextEncoder();
 
     const stream = new ReadableStream({
@@ -78,7 +90,7 @@ export async function POST(request: NextRequest) {
             imageCount: images.length,
           });
 
-          const result = await provider.analyzeStream(
+          const result = await analysisProvider.analyzeStream(
             images,
             (chunk) => send("chunk", { text: chunk }),
             safeLang,

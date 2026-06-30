@@ -1,57 +1,101 @@
 # MRI Scout
 
-AI-powered MRI scan analysis tool. Upload your MRI images, get structured findings with severity grading, injury pattern recognition, and exportable PDF reports.
+AI-powered MRI image review for people who have their scan files but still have to wait for the official report.
 
-> **DISCLAIMER**: This is a hobby/educational tool. Results are **NOT** a medical diagnosis. Always consult a qualified physician for any health decisions.
+MRI Scout runs locally in your browser. You upload exported MRI images, the app selects representative slices, sends them to an AI vision model, and shows a structured orientation report with per-slice findings and markers.
 
-## Features
+> WARNING: MRI Scout is a hobby and educational tool. It is not a medical device and it is not a diagnosis. Always use the official radiology report and a qualified physician for medical decisions.
 
-- **Smart Slice Selection** — Upload entire MRI folders (200+ images). The algorithm automatically identifies series, trims surface slices, and selects representative central slices for analysis.
-- **Two-Phase Analysis** — Initial screening across all series, then automatic targeted deep-dive into areas with detected pathology.
-- **Universal Radiology Protocol** — Works for any body part (knee, shoulder, spine, brain). Systematic signal analysis, ligament grading (I/II/III), bone bruise pattern recognition, and cross-sequence correlation.
-- **Severity Grading** — Each finding gets severity (mild/moderate/severe/complete rupture) and temporal assessment (acute/subacute/chronic).
-- **Injury Pattern Inference** — Correlates multiple findings to identify the overall injury mechanism.
-- **Per-Image Findings** — Each analyzed slice shown with status badge, finding description, expandable detail, and annotation markers at the exact location of pathology.
-- **Fullscreen Lightbox** — Click any image to zoom/pan with annotation overlay.
-- **PDF Export** — A4 print-ready reports: summary on page 1, detailed findings with images on subsequent pages.
-- **30+ Languages** — All European languages plus Chinese, Japanese, Korean, Arabic, Hindi and more. Switch anytime — results auto-translate.
-- **Streaming Results** — Watch the AI analysis appear in real-time.
-- **Clinical Dark Theme** — Medical-grade UI with the MRI Scout Design System.
+## Screenshots
+
+### Upload and slice selection
+
+![MRI Scout upload screen](docs/images/mri-scout-upload.png)
+
+### Results with scan markers
+
+![MRI Scout result screen](docs/images/mri-scout-results.png)
+
+## What It Does
+
+- Upload MRI image exports such as JPG, PNG, or WEBP.
+- Group scans by MRI series from filenames.
+- Select representative central slices instead of sending every image.
+- Analyze the selected slices with an AI vision model.
+- Return structured JSON with summary, recommendation, affected structures, severity, and per-image findings.
+- Show finding cards with the scan thumbnail, status badge, severity, detail text, and marker position.
+- Run a deeper follow-up pass when the first analysis asks for neighboring slices.
+- Export a print-ready report from the result screen.
+- Support multiple output languages.
+
+MRI Scout is useful for the gap between the scan and the official result. It can help you ask better questions sooner. It should not decide treatment.
+
+## Real Test
+
+The app was tested on a real exported knee MRI set:
+
+- 232 JPG files
+- 6 MRI series
+- 50 representative slices selected by the app
+- 26.5 MB payload sent to the AI model
+- structured result returned in about 90 seconds
+
+In that test, the app flagged a serious cruciate ligament injury pattern, including possible complete rupture, plus related bone marrow signal and soft tissue edema. That is exactly the kind of result where the app should tell you to get proper medical review, not pretend to be a doctor.
 
 ## How It Works
 
-1. **Upload** — Drag & drop your MRI folder or select files (PNG, JPG, WEBP)
-2. **Auto-Select** — Algorithm picks ~50 representative slices from central regions of each series
-3. **Analyze** — AI examines each slice with a systematic radiology protocol
-4. **Deep Dive** — If pathology detected, AI requests specific slice ranges for detailed examination
-5. **Results** — Summary, per-image findings sorted by severity, PDF export
+1. Upload an MRI folder or selected image files.
+2. MRI Scout groups the files into series and finds the useful central region.
+3. The app sends a capped set of slices to the selected AI provider.
+4. The model returns structured findings.
+5. MRI Scout renders the recommendation, counts, affected structures, and per-slice finding cards.
+6. If needed, a deeper pass can inspect neighboring slices around suspicious areas.
+7. You can export the result as a report.
 
-## Powered by Google Gemini API
+## AI Providers
 
-MRI Scout uses the [Google Generative AI API](https://ai.google.dev/) (Gemini 3.1 Pro Preview) for image analysis. The API processes your MRI images and returns structured radiological findings.
+MRI Scout supports:
 
-**The app is completely free to use** — you just need your own Google AI API key:
+- OpenAI via `OPENAI_API_KEY`
+- Google Gemini via `GOOGLE_GENERATIVE_AI_API_KEY`
 
-1. Go to [Google AI Studio](https://aistudio.google.com/apikey)
-2. Create a free API key (Google offers a generous free tier)
-3. Paste it into your `.env.local` file
+You can configure the key in `.env.local`, or use the in-app key setup. The key is stored locally. Scan images are sent to the selected AI provider for analysis.
 
-Your images are sent directly to Google's API for analysis. No data is stored on any server — everything runs locally on your machine.
+Example `.env.local`:
+
+```env
+OPENAI_API_KEY=your_openai_key_here
+```
+
+or:
+
+```env
+GOOGLE_GENERATIVE_AI_API_KEY=your_google_key_here
+```
+
+## Important Limits
+
+- MRI Scout does not read CDs directly.
+- MRI Scout is not a DICOM viewer.
+- If your scan is on a CD, copy the data first.
+- If your files are DICOM, export them to JPG, PNG, or WEBP before upload.
+- The app does not replace radiology, orthopedics, or emergency care.
 
 ## Tech Stack
 
-- [Next.js](https://nextjs.org/) 15+ (App Router, Turbopack)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com/) 4
-- [Google Generative AI SDK](https://ai.google.dev/) (Gemini 3.1 Pro Preview)
-- [Lucide React](https://lucide.dev/) icons
+- Next.js App Router
+- TypeScript
+- Tailwind CSS
+- OpenAI SDK
+- Google Generative AI SDK
+- Lucide React icons
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
-- Google AI API key — [Get one free](https://aistudio.google.com/apikey)
+- Node.js 20+
+- An OpenAI API key or Google AI API key
 
 ### Installation
 
@@ -63,10 +107,16 @@ npm install
 
 ### Configuration
 
-Create `.env.local` in the root directory:
+Create `.env.local` in the project root:
 
 ```env
-GOOGLE_GENERATIVE_AI_API_KEY=your_api_key_here
+OPENAI_API_KEY=your_openai_key_here
+```
+
+or:
+
+```env
+GOOGLE_GENERATIVE_AI_API_KEY=your_google_key_here
 ```
 
 ### Run
@@ -75,35 +125,40 @@ GOOGLE_GENERATIVE_AI_API_KEY=your_api_key_here
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open `http://localhost:3000`.
+
+### Build
+
+```bash
+npm run build
+```
 
 ## Project Structure
 
-```
+```text
 app/
-  page.tsx                — Main application
-  report/page.tsx         — Print-optimized PDF report
-  api/analyze/route.ts    — Streaming SSE analysis endpoint
+  page.tsx                    Main application
+  report/page.tsx             Print-ready report page
+  api/analyze/route.ts        Streaming analysis endpoint
 components/
-  finding-card.tsx        — Per-image result card with annotations
-  image-viewer.tsx        — Zoomable image viewer with markers
-  image-lightbox.tsx      — Fullscreen modal viewer
-  upload-zone.tsx         — Drag & drop upload
-  onboarding.tsx          — First-time guide
-  analysis-stepper.tsx    — Progress indicator
-  series-filmstrip.tsx    — Visual slice selection
-  language-selector.tsx   — Language dropdown
+  upload-zone.tsx             Drag and drop upload
+  series-filmstrip.tsx        Series and slice selection preview
+  finding-card.tsx            Per-slice finding card with marker
+  image-lightbox.tsx          Fullscreen scan preview
+  api-key-setup.tsx           Local API key setup
 lib/
-  i18n.ts                 — 30+ languages
-  image-selector.ts       — Smart slice selection
+  image-selector.ts           Series grouping and representative slice selection
+  i18n.ts                     UI and prompt language support
   providers/
-    system-prompt.ts      — Universal radiology prompt
-    gemini.ts             — Gemini API with streaming
+    index.ts                  Provider registry
+    openai.ts                 OpenAI vision provider
+    gemini.ts                 Gemini vision provider
+    system-prompt.ts          MRI analysis prompt
 ```
 
-## Contributing
+## Privacy
 
-Contributions welcome. Please open an issue first to discuss changes.
+MRI Scout does not add custom server-side scan storage. In local development, the selected images live in the browser session and are sent to the selected AI provider when you run analysis. Review your provider's data policy before using real medical data.
 
 ## License
 
@@ -111,7 +166,7 @@ Contributions welcome. Please open an issue first to discuss changes.
 
 ## Author
 
-**Lukas Hanes**
+Lukas Hanes
 
 - Web: [lukashanes.com](https://lukashanes.com/)
 - X/Twitter: [@lukhanes](https://x.com/lukhanes)
