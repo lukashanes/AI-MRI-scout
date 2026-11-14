@@ -219,8 +219,8 @@ export function getSliceRange(
 
   for (const img of allImages) {
     const { series, slice } = parseSeriesAndSlice(img.name);
-    // Match series prefix (exact or partial match)
-    if (series === seriesPrefix || series.startsWith(seriesPrefix) || seriesPrefix.startsWith(series)) {
+    // Match series: exact match first, then prefix match only if prefix ends at a boundary
+    if (series === seriesPrefix || (series.startsWith(seriesPrefix) && (series[seriesPrefix.length] === "_" || series[seriesPrefix.length] === undefined))) {
       if (slice >= fromSlice && slice <= toSlice) {
         matching.push({ id: img.id, slice });
       }
@@ -229,4 +229,63 @@ export function getSliceRange(
 
   matching.sort((a, b) => a.slice - b.slice);
   return matching.slice(0, maxCount).map((m) => m.id);
+}
+
+/**
+ * Select previously unseen slices for an exploratory second pass.
+ * Prioritizes series edges and evenly covers the remaining unseen slices.
+ */
+export function selectExplorationImages(
+  allImages: ImageFile[],
+  reviewedIds: string[],
+  maxTotal: number = 50
+): string[] {
+  const reviewed = new Set(reviewedIds);
+  const seriesMap = new Map<string, { id: string; slice: number }[]>();
+
+  for (const img of allImages) {
+    const { series, slice } = parseSeriesAndSlice(img.name);
+    if (!seriesMap.has(series)) seriesMap.set(series, []);
+    seriesMap.get(series)!.push({ id: img.id, slice });
+  }
+
+  for (const entries of seriesMap.values()) {
+    entries.sort((a, b) => a.slice - b.slice);
+  }
+
+  const remainingTotal = [...seriesMap.values()]
+    .flat()
+    .filter((entry) => !reviewed.has(entry.id)).length;
+
+  if (remainingTotal === 0) return [];
+
+  const picked = new Set<string>();
+
+  for (const entries of seriesMap.values()) {
+    const unseen = entries.filter((entry) => !reviewed.has(entry.id));
+    if (unseen.length === 0) continue;
+
+    const perSeriesBudget = Math.max(2, Math.round((unseen.length / remainingTotal) * maxTotal));
+    const edgeCount = Math.max(1, Math.floor(entries.length * 0.12));
+    const edgeCandidates = [
+      ...entries.slice(0, edgeCount),
+      ...entries.slice(Math.max(edgeCount, entries.length - edgeCount)),
+    ].filter((entry) => !reviewed.has(entry.id));
+
+    const edgePicks = pickEvenly(
+      edgeCandidates,
+      Math.min(edgeCandidates.length, Math.max(1, Math.ceil(perSeriesBudget / 2)))
+    );
+    edgePicks.forEach((entry) => picked.add(entry.id));
+
+    const remainingCandidates = unseen.filter((entry) => !picked.has(entry.id));
+    const remainingBudget = Math.max(0, perSeriesBudget - edgePicks.length);
+    const coveragePicks = pickEvenly(
+      remainingCandidates,
+      Math.min(remainingCandidates.length, remainingBudget)
+    );
+    coveragePicks.forEach((entry) => picked.add(entry.id));
+  }
+
+  return [...picked].slice(0, maxTotal);
 }

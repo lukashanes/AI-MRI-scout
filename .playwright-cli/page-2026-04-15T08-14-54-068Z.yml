@@ -1,0 +1,116 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - img [ref=e5]
+      - paragraph [ref=e7]: "⚕️ WARNING: This is a hobby tool using AI. The results are NOT a medical diagnosis. Always consult a qualified physician for any health decisions."
+    - banner [ref=e12]:
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - img [ref=e16]
+          - generic [ref=e18]:
+            - heading "MRI Scout" [level=1] [ref=e19]
+            - paragraph [ref=e20]: AI-powered MRI scan analysis
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - img [ref=e23]
+            - combobox [ref=e26] [cursor=pointer]:
+              - option "English" [selected]
+              - option "中文 (Chinese)"
+              - option "Español"
+              - option "हिन्दी (Hindi)"
+              - option "العربية (Arabic)"
+              - option "Português"
+              - option "日本語 (Japanese)"
+              - option "한국어 (Korean)"
+              - option "Čeština"
+              - option "Deutsch"
+              - option "Français"
+              - option "Italiano"
+              - option "Nederlands"
+              - option "Polski"
+              - option "Română"
+              - option "Svenska"
+              - option "Dansk"
+              - option "Suomi"
+              - option "Norsk"
+              - option "Ελληνικά (Greek)"
+              - option "Magyar"
+              - option "Slovenčina"
+              - option "Hrvatski"
+              - option "Български"
+              - option "Українська"
+              - option "Русский"
+              - option "Türkçe"
+              - option "עברית (Hebrew)"
+              - option "ไทย (Thai)"
+              - option "Tiếng Việt"
+              - option "Bahasa Indonesia"
+          - button "API Keys 1/1" [ref=e27]:
+            - img [ref=e28]
+            - generic [ref=e32]: API Keys
+            - generic [ref=e33]: 1/1
+    - main [ref=e34]:
+      - generic [ref=e77]:
+        - img [ref=e109]
+        - generic [ref=e78]: Gemini is reviewing the core slices of the study.
+        - generic [ref=e111]: 7.0s
+      - generic [ref=e36]:
+        - heading "Upload MRI Images" [level=2] [ref=e37]
+        - generic [ref=e38]:
+          - img [ref=e79]
+          - paragraph [ref=e82]: Drag & drop MRI folder or browse files
+          - paragraph [ref=e83]: Upload all slices — smart selection picks the best ones
+        - generic [ref=e84]:
+          - generic [ref=e85]: 1 images uploaded (432 KB)
+          - button "Clear all" [ref=e86]
+      - generic [ref=e87]:
+        - paragraph [ref=e88]: Auto-selected 1 slices from central region of 1 series (1 total). Outer slices skipped.
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - generic [ref=e92]: 201__S000
+            - generic [ref=e93]: 1/1 slices
+          - generic "Central region — internal structures" [ref=e95]
+          - generic [ref=e96]:
+            - generic [ref=e97]: "0"
+            - generic [ref=e98]: Central region — internal structures
+            - generic [ref=e99]: "1"
+      - generic [ref=e112]:
+        - generic [ref=e113]:
+          - generic [ref=e115]:
+            - img [ref=e117]
+            - generic [ref=e119]: Preparing
+          - generic [ref=e122]:
+            - img [ref=e124]
+            - generic [ref=e126]: Selecting slices
+          - generic [ref=e129]:
+            - img [ref=e131]
+            - generic [ref=e134]: Sending to AI
+          - generic [ref=e137]:
+            - img [ref=e139]
+            - generic [ref=e147]: Analyzing
+        - generic [ref=e148]:
+          - generic [ref=e149]: Sending 1 slices for analysis...
+          - generic [ref=e150]: 7.0s
+      - generic [ref=e151]:
+        - generic [ref=e152]:
+          - img [ref=e153]
+          - generic [ref=e155]:
+            - paragraph [ref=e156]: Live Analysis
+            - paragraph [ref=e157]: Live narration of what the model is checking, finding, and verifying.
+        - generic [ref=e158]:
+          - generic [ref=e160]:
+            - img [ref=e162]
+            - generic [ref=e164]:
+              - paragraph [ref=e165]: Gemini is reviewing the core slices of the study.
+              - paragraph [ref=e166]: Checking ligaments, menisci, bone marrow signal, and joint fluid to build a preliminary impression.
+          - generic [ref=e168]:
+            - img [ref=e170]
+            - generic [ref=e172]:
+              - paragraph [ref=e173]: Preparing 1 selected slices and grouping them by series.
+              - paragraph [ref=e174]: The first step is a primary pass over the representative slice set.
+          - generic [ref=e176]:
+            - img [ref=e178]
+            - generic [ref=e180]:
+              - paragraph [ref=e181]: Starting the main pass over the representative slice set.
+              - paragraph [ref=e182]: 1 slices are queued across the detected series.
+  - alert [ref=e75]

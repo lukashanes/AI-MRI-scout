@@ -24,36 +24,47 @@ function writeEnvFile(env: Record<string, string>) {
   writeFileSync(ENV_PATH, lines.join("\n") + "\n", "utf-8");
 }
 
-// GET: check if key is set (boolean only, never return the key)
-export async function GET() {
-  const hasKey = !!process.env.GOOGLE_GENERATIVE_AI_API_KEY;
-  return Response.json({ ready: hasKey });
+function getStatus() {
+  const gemini = !!process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+
+  return {
+    ready: gemini,
+    providers: {
+      gemini,
+    },
+  };
 }
 
-// POST: save API key to .env.local and update process.env
+export async function GET() {
+  return Response.json(getStatus());
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const { apiKey } = (await request.json()) as { apiKey?: string };
+    const { googleApiKey } = (await request.json()) as {
+      googleApiKey?: string;
+    };
 
-    if (!apiKey || typeof apiKey !== "string") {
+    if (googleApiKey == null || googleApiKey.trim() === "") {
       return Response.json({ error: "No API key provided." }, { status: 400 });
     }
 
-    // Basic validation — Google AI keys start with "AIza"
-    const trimmed = apiKey.trim();
-    if (trimmed.length < 10 || trimmed.length > 200) {
-      return Response.json({ error: "Invalid API key format." }, { status: 400 });
-    }
-
-    // Read existing env, update key, write back
     const env = readEnvFile();
-    env["GOOGLE_GENERATIVE_AI_API_KEY"] = trimmed;
+
+    if (googleApiKey != null && googleApiKey.trim() !== "") {
+      const trimmedGoogle = googleApiKey.trim();
+      if (trimmedGoogle.length < 10 || trimmedGoogle.length > 200) {
+        return Response.json({ error: "Invalid Google API key format." }, { status: 400 });
+      }
+      env.GOOGLE_GENERATIVE_AI_API_KEY = trimmedGoogle;
+      process.env.GOOGLE_GENERATIVE_AI_API_KEY = trimmedGoogle;
+    }
+    delete env.OPENAI_API_KEY;
+    delete process.env.OPENAI_API_KEY;
+
     writeEnvFile(env);
 
-    // Update process.env so it takes effect immediately (no restart needed)
-    process.env.GOOGLE_GENERATIVE_AI_API_KEY = trimmed;
-
-    return Response.json({ success: true, ready: true });
+    return Response.json({ success: true, ...getStatus() });
   } catch (error) {
     console.error("Config error:", error);
     return Response.json({ error: "Failed to save API key." }, { status: 500 });

@@ -1,0 +1,79 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - img [ref=e5]
+      - paragraph [ref=e7]: "⚕️ WARNING: This is a hobby tool using AI. The results are NOT a medical diagnosis. Always consult a qualified physician for any health decisions."
+    - generic [ref=e9]:
+      - checkbox "I understand this is not a medical tool and results are for informational purposes only" [ref=e10]
+      - generic [ref=e11] [cursor=pointer]: I understand this is not a medical tool and results are for informational purposes only
+    - banner [ref=e12]:
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - img [ref=e16]
+          - generic [ref=e18]:
+            - heading "MRI Scout" [level=1] [ref=e19]
+            - paragraph [ref=e20]: AI-powered MRI scan analysis
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - img [ref=e23]
+            - combobox [ref=e26] [cursor=pointer]:
+              - option "English" [selected]
+              - option "中文 (Chinese)"
+              - option "Español"
+              - option "हिन्दी (Hindi)"
+              - option "العربية (Arabic)"
+              - option "Português"
+              - option "日本語 (Japanese)"
+              - option "한국어 (Korean)"
+              - option "Čeština"
+              - option "Deutsch"
+              - option "Français"
+              - option "Italiano"
+              - option "Nederlands"
+              - option "Polski"
+              - option "Română"
+              - option "Svenska"
+              - option "Dansk"
+              - option "Suomi"
+              - option "Norsk"
+              - option "Ελληνικά (Greek)"
+              - option "Magyar"
+              - option "Slovenčina"
+              - option "Hrvatski"
+              - option "Български"
+              - option "Українська"
+              - option "Русский"
+              - option "Türkçe"
+              - option "עברית (Hebrew)"
+              - option "ไทย (Thai)"
+              - option "Tiếng Việt"
+              - option "Bahasa Indonesia"
+          - button "API Keys 2/2" [ref=e27]:
+            - img [ref=e28]
+            - generic [ref=e32]: API Keys
+            - generic [ref=e33]: 2/2
+    - main [ref=e34]:
+      - generic [ref=e36]:
+        - heading "Upload MRI Images" [level=2] [ref=e37]
+        - generic [ref=e38] [cursor=pointer]:
+          - img [ref=e39]
+          - paragraph [ref=e42]: Drag & drop MRI folder or browse files
+          - paragraph [ref=e43]: Upload all slices — smart selection picks the best ones
+      - generic [ref=e44]:
+        - heading "How it works" [level=2] [ref=e45]
+        - paragraph [ref=e46]: Upload your MRI folder and get AI-powered observations in seconds
+        - generic [ref=e47]:
+          - generic [ref=e49]:
+            - img [ref=e51]
+            - generic [ref=e54]: 1. Upload
+            - generic [ref=e55]: Drop your MRI folder — all slices accepted
+          - generic [ref=e58]:
+            - img [ref=e60]
+            - generic [ref=e63]: 2. Auto-select
+            - generic [ref=e64]: Smart algorithm picks the most informative central slices
+          - generic [ref=e67]:
+            - img [ref=e69]
+            - generic [ref=e72]: 3. Analyze
+            - generic [ref=e73]: AI examines each slice and reports findings
+      - button "Accept the disclaimer above first" [disabled] [ref=e74]
+  - alert [ref=e75]

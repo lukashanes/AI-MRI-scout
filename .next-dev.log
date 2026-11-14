@@ -1,0 +1,17 @@
+
+> mri-hobby-scanner@1.0.0 dev
+> next dev --turbopack
+
+▲ Next.js 16.2.1 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://100.106.51.10:3000
+- Environments: .env.local
+✓ Ready in 248ms
+- Experiments (use with caution):
+  · serverActions
+
+ GET / 200 in 186ms (next.js: 77ms, application-code: 108ms)
+ GET /api/config 200 in 31ms (next.js: 24ms, application-code: 7ms)
+ GET / 200 in 17ms (next.js: 1842µs, application-code: 15ms)
+ GET / 200 in 18ms (next.js: 2ms, application-code: 16ms)
+ GET /api/config 200 in 5ms (next.js: 1661µs, application-code: 3ms)

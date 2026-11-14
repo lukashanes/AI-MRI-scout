@@ -1,12 +1,12 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { CheckCircle2, Info, AlertTriangle } from "lucide-react";
+import { CheckCircle2, Info, AlertTriangle, XCircle } from "lucide-react";
 
 export interface ToastItem {
   id: string;
   message: string;
-  type: "info" | "success" | "warning";
+  type: "info" | "success" | "warning" | "error";
 }
 
 interface ToastContainerProps {
@@ -17,6 +17,7 @@ const TOAST_STYLES = {
   info: { bg: "bg-gray-800/90 border-gray-600", color: "text-gray-200", Icon: Info },
   success: { bg: "bg-green-900/90 border-green-700", color: "text-green-200", Icon: CheckCircle2 },
   warning: { bg: "bg-yellow-900/90 border-yellow-700", color: "text-yellow-200", Icon: AlertTriangle },
+  error: { bg: "bg-red-900/90 border-red-700", color: "text-red-200", Icon: XCircle },
 };
 
 export function ToastContainer({ toasts }: ToastContainerProps) {

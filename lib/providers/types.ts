@@ -1,6 +1,8 @@
 export interface Base64Image {
   data: string;
   mediaType: string;
+  name?: string;
+  context?: string;
 }
 
 export interface AnalysisResult {
@@ -15,7 +17,7 @@ export interface AnalysisProvider {
   name: string;
   slug: "gemini";
   model: string;
-  analyze(images: Base64Image[], lang?: string): Promise<AnalysisResult>;
+  analyze(images: Base64Image[], lang?: string, customPrompt?: string): Promise<AnalysisResult>;
   analyzeStream(
     images: Base64Image[],
     onChunk: (text: string) => void,

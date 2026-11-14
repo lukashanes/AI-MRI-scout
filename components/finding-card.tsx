@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, AlertTriangle, XCircle, ChevronDown, ChevronUp, Search, Expand, ArrowDown, Crosshair } from "lucide-react";
+import { CheckCircle2, AlertTriangle, XCircle, ChevronDown, ChevronUp, Search, Expand, ArrowDown, Crosshair, RotateCw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { t } from "@/lib/i18n";
 import type { UploadedImage } from "./upload-zone";
@@ -19,6 +19,7 @@ interface ImageFinding {
   deep_dive_reason?: string;
   marker_x?: number;
   marker_y?: number;
+  confidence?: number;
 }
 
 interface FindingCardProps {
@@ -44,6 +45,12 @@ const STATUS_CONFIG = {
 
 const STATUS_KEY = { normal: "statusNormal", note: "statusNote", abnormal: "statusAbnormal" } as const;
 
+function confidenceColor(c: number): string {
+  if (c >= 80) return "text-[#10B981]";
+  if (c >= 50) return "text-[#F59E0B]";
+  return "text-[#EF4444]";
+}
+
 export type { ImageFinding };
 
 export function FindingCard({
@@ -55,18 +62,20 @@ export function FindingCard({
   const StatusIcon = config.Icon;
   const hasMarker = finding.status !== "normal" && finding.marker_x != null && finding.marker_y != null;
   const [showMarker, setShowMarker] = useState(true);
+  const [rotation, setRotation] = useState(0);
 
   return (
     <div className={cn("rounded-xl border overflow-hidden animate-fade-in", config.border)} style={{ backgroundColor: "#111827" }}>
       {/* Image + description side by side */}
       <div className="flex flex-col lg:flex-row">
-        {/* Image — shown at full card width on mobile, ~320px on desktop */}
+        {/* Image */}
         {image && (
           <div className="relative shrink-0 lg:w-[320px] group/img">
             <img
               src={image.preview}
               alt={finding.body_part || "MRI slice"}
               className="w-full lg:w-[320px] h-auto lg:h-full object-contain bg-black cursor-pointer"
+              style={{ transform: `rotate(${rotation}deg)` }}
               onClick={onThumbnailClick}
             />
             {/* Marker */}
@@ -85,8 +94,12 @@ export function FindingCard({
             </span>
             {/* Slice label */}
             <span className="absolute bottom-2 left-2 text-[10px] bg-black/70 text-[#94A3B8] px-1.5 py-0.5 rounded">{sliceLabel}</span>
-            {/* Controls: marker toggle + zoom */}
+            {/* Controls: rotate, marker toggle, zoom */}
             <div className="absolute bottom-2 right-2 flex gap-1">
+              <button onClick={(e) => { e.stopPropagation(); setRotation((r) => (r + 90) % 360); }}
+                className="p-1 rounded bg-black/50 text-[#94A3B8] hover:text-white transition-colors" title="Rotate 90°">
+                <RotateCw className="w-3.5 h-3.5" />
+              </button>
               {hasMarker && (
                 <button onClick={(e) => { e.stopPropagation(); setShowMarker(!showMarker); }}
                   className={cn("p-1 rounded text-xs transition-colors", showMarker ? "bg-[#042F2E] text-[#00D4AA]" : "bg-black/50 text-[#64748B]")}
@@ -118,6 +131,11 @@ export function FindingCard({
             {finding.temporal && (
               <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#1E293B] text-[#64748B]">
                 {finding.temporal}
+              </span>
+            )}
+            {finding.confidence != null && (
+              <span className={cn("text-[10px] px-1.5 py-0.5 rounded bg-[#1E293B] border border-[#334155] font-mono", confidenceColor(finding.confidence))}>
+                {finding.confidence}%
               </span>
             )}
           </div>

@@ -1,0 +1,83 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - img [ref=e5]
+      - paragraph [ref=e7]: "⚕️ WARNING: This is a hobby tool using AI. The results are NOT a medical diagnosis. Always consult a qualified physician for any health decisions."
+    - banner [ref=e12]:
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - img [ref=e16]
+          - generic [ref=e18]:
+            - heading "MRI Scout" [level=1] [ref=e19]
+            - paragraph [ref=e20]: AI-powered MRI scan analysis
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - img [ref=e23]
+            - combobox [ref=e26] [cursor=pointer]:
+              - option "English" [selected]
+              - option "中文 (Chinese)"
+              - option "Español"
+              - option "हिन्दी (Hindi)"
+              - option "العربية (Arabic)"
+              - option "Português"
+              - option "日本語 (Japanese)"
+              - option "한국어 (Korean)"
+              - option "Čeština"
+              - option "Deutsch"
+              - option "Français"
+              - option "Italiano"
+              - option "Nederlands"
+              - option "Polski"
+              - option "Română"
+              - option "Svenska"
+              - option "Dansk"
+              - option "Suomi"
+              - option "Norsk"
+              - option "Ελληνικά (Greek)"
+              - option "Magyar"
+              - option "Slovenčina"
+              - option "Hrvatski"
+              - option "Български"
+              - option "Українська"
+              - option "Русский"
+              - option "Türkçe"
+              - option "עברית (Hebrew)"
+              - option "ไทย (Thai)"
+              - option "Tiếng Việt"
+              - option "Bahasa Indonesia"
+          - button "API Keys 1/1" [ref=e76]:
+            - img [ref=e28]
+            - generic [ref=e32]: API Keys
+            - generic [ref=e33]: 1/1
+    - main [ref=e34]:
+      - generic [ref=e79]: The verification pass confirmed the main abnormality.
+      - generic [ref=e36]:
+        - heading "Upload MRI Images" [level=2] [ref=e37]
+        - generic [ref=e38] [cursor=pointer]:
+          - img [ref=e80]
+          - paragraph [ref=e83]: Drag & drop MRI folder or browse files
+          - paragraph [ref=e84]: Upload all slices — smart selection picks the best ones
+        - generic [ref=e85]:
+          - generic [ref=e86]: 3 images uploaded (1.2 MB)
+          - button "Clear all" [ref=e87]
+      - generic [ref=e88]:
+        - paragraph [ref=e89]: Auto-selected 3 slices from central region of 1 series (3 total). Outer slices skipped.
+        - generic [ref=e91]:
+          - generic [ref=e92]:
+            - generic [ref=e93]: 201__S000
+            - generic [ref=e94]: 3/3 slices
+          - generic [ref=e95]:
+            - generic "Central region — internal structures" [ref=e96]
+            - generic "Central region — internal structures" [ref=e97]
+            - generic "Central region — internal structures" [ref=e98]
+          - generic [ref=e99]:
+            - generic [ref=e100]: "0"
+            - generic [ref=e101]: Central region — internal structures
+            - generic [ref=e102]: "3"
+      - button "Analyze 3 slices" [ref=e112]
+      - generic [ref=e113]:
+        - generic [ref=e114]: "Expected ',' or '}' after property value in JSON at position 49 (line 1 column 50)"
+        - button "Retry" [ref=e115]:
+          - img [ref=e116]
+          - text: Retry
+  - alert [ref=e75]
